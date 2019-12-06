@@ -21,22 +21,38 @@ class AddRecipe extends Component {
         const ingredients = document.getElementById("ingredients").value;
         const directions= document.getElementById("directions").value;
         let recipes = [];
+
         database.push({
-            recipeName,
-            ingredients,
-            directions
+        recipeName,
+        ingredients,
+        directions
         });
+
+        const trialKey = firebase.database().ref("recipeName/testing");
+        console.log(trialKey);
+
+        document.getElementById("all-recipes").innerHTML="";
         // database.delete();
         database.on('value', function(snapshot) {
+            console.log(snapshot.val());
+            
             snapshot.forEach(function(childSnapshot) {
-              recipes = childSnapshot.val();
-              console.log(recipes.recipeName);
-              document.getElementById("recipeAdded").textContent = "You've Added:"
-              document.getElementById("name").textContent = recipes.recipeName;
-              document.getElementById("recipeIngredients").textContent = recipes.ingredients;
-              document.getElementById("recipeDirections").textContent = recipes.directions;
+                recipes = childSnapshot.val();
+                document.getElementById("recipeAdded").textContent = "You've Added:"
+                document.getElementById("name").textContent = recipes.recipeName;
+                document.getElementById("recipeIngredients").textContent = recipes.ingredients;
+                document.getElementById("recipeDirections").textContent = recipes.directions;
+                const html = document.createElement("p");
+                console.log(html);
+                document.getElementById("all-recipes").appendChild(html);
+                html.innerText = recipes.recipeName;
             });
         });
+        database.on("child_added", function(snapshot){
+            let p = document.createElement("p");
+            console.log(snapshot.val());
+            console.log(snapshot.val().recipeName);
+        })
 
         console.log("Recipe has been added!");
         document.getElementById("recipeName").value = "";
@@ -60,10 +76,15 @@ class AddRecipe extends Component {
                 </label>
                 <button type="submit" id="submit" onClick={this.handleSubmit}>Submit</button>
             </form>
-            <p id="recipeAdded"></p>
-            <p id="name"></p>
-            <p id="recipeIngredients"></p>
-            <p id="recipeDirections"></p>
+            <div id="recently-added">
+                <p id="recipeAdded"></p>
+                <p id="name"></p>
+                <p id="recipeIngredients"></p>
+                <p id="recipeDirections"></p>
+            </div>
+            <div id="all-recipes">
+                
+            </div>
             </>
         )
     }
