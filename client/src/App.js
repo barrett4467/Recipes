@@ -1,22 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import Home from "./components/Home";
 import AddRecipe from "./components/AddRecipe";
-import ViewRecipes from "./components/ViewRecipes";
+import ViewRecipe from "./components/ViewRecipe";
+import NoMatch from "./components/NoMatch";
 
 
 function App() {
   return (
-    // <Router>
-    //   <div>
-    //     <Switch>
-    //       <Route exact path="/"></Route>
-    //       <Route component={NoMatch}></Route>
-    //     </Switch>
-    //   </div>
-    // </Router>
-    <ViewRecipes/>
-  )
+    <Router>
+      <>
+        <Switch>
+          <Route exact path={"/"} component={Home}/>
+          <Route exact path={"/view"} component={ViewRecipe}/>
+          <Route exact path={"/add"} component={AddRecipe}/>
+          <Route component={NoMatch}/>
+        </Switch>
+      </>
+    </Router>
+  );
 }
 
 export default App;
