@@ -3,24 +3,19 @@ const db = require("../models");
 
 mongoose.connect(
   process.env.MONGODB_URI ||
-  "mongodb://localhost/reactreadinglist"
+  "mongodb://localhost/recipes"
 );
-const userSeed = [
+const recipeSeed = [
     {
-        username: "Tester",
-        password: "PASSWORD",
-        email: "test@123.com"
-    },
-    {
-        username: "Admin",
-        password: "admin1",
-        email: "1@2.com"
+        recipeName: "Tester",
+        ingredients: ["ambition", "luck"],
+        directions: "try"
     }
 ];
 
-db.User
+db.Recipe
   .remove({})
-  .then(() => db.User.collection.insertMany(userSeed))
+  .then(() => db.User.collection.insertMany(recipeSeed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
     process.exit(0);

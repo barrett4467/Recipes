@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./components/Home";
-import AddRecipe from "./components/AddRecipe";
-import ViewRecipe from "./components/ViewRecipe";
-import NoMatch from "./components/NoMatch";
+import Home from "./pages/Home";
+import AddRecipe from "./pages/AddRecipe";
+import ViewRecipe from "./pages/ViewRecipe";
+import NoMatch from "./pages/NoMatch";
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
           <Route exact path={"/"} component={Home}/>
           <Route exact path={"/view"} component={ViewRecipe}/>
           <Route exact path={"/add"} component={AddRecipe}/>
-          <Route component={NoMatch}/>
+          {/* <Route component={NoMatch}/> */}
         </Switch>
       </>
     </Router>
