@@ -1,8 +1,7 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var Schema = mongoose.Schema;
-
-var RecipeSchema = new Schema({
+const RecipeSchema = new Schema({
   recipeName: {
     type: String,
     trim: true,
@@ -19,6 +18,6 @@ var RecipeSchema = new Schema({
   }
 });
 
-var Recipe = mongoose.model("Recipe", RecipeSchema);
+const Recipe = mongoose.model("Recipe", RecipeSchema);
 
 module.exports = Recipe;

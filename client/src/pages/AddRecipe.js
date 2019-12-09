@@ -8,10 +8,13 @@ class AddRecipe extends Component {
         ingredients: [],
         directions: ""
     }
+    componentDidMount(){
+        this.loadRecipes();
+    }
     loadRecipes = () => {
-        API.findAllRecipes()
+        API.getRecipes()
             .then(res => 
-                this.setState( { recipes: res.data })
+                this.setState( { recipes: res.data, recipeName: "", ingredients:[], directions: "" })
             )
             .catch(err => console.log(err));
     };
@@ -23,14 +26,25 @@ class AddRecipe extends Component {
     };
     handleSubmit = event => {
         event.preventDefault();
+        console.log("clicked");
         if (this.state.recipeName && this.state.ingredients && this.state.directions){
-            API.createRecipe({
-                recipeName: this.state.recipeName,
-                ingredients: this.state.ingredients,
-                directions: this.state.ingredients
-            })
-            .then(res => this.loadRecipes())
-            .catch(err => console.log(err))
+            let tester = {
+                recipeName: "Test",
+                ingredients: ["luck", "faith"],
+                directions: "Please work"   
+            }
+            
+            API.createRecipe(tester);
+
+            // API.createRecipe({
+            //     recipeName: this.state.recipeName,
+            //     ingredients: this.state.ingredients,
+            //     directions: this.state.ingredients
+            //  })
+            // .then(res => this.loadRecipes())
+            // .catch(err => console.log(err))
+        } else {
+            alert("not")
         }
     }
 
@@ -38,7 +52,7 @@ class AddRecipe extends Component {
         return(
             <>
             <p>Add Recipe</p>
-            <form>
+            <form method="post" action="/addrecipe">
                 <input
                     value={this.state.recipeName}
                     onChange={this.handleInputChange}
@@ -59,9 +73,26 @@ class AddRecipe extends Component {
                 />
                 <button 
                     disabled={!this.state.recipeName && this.state.ingredients && this.state.directions}
-                    onChange={this.handleSubmit}
+                    onClick={this.handleSubmit}
                 >Submit Recipe</button>
             </form>
+            {this.state.recipes.length ? (
+                <div>
+                  {this.state.recipes.map(recipe => (
+                    <>
+                        <h3>{recipe.recipeName}</h3>
+                        <h4>Ingredients:</h4>
+                        {recipe.ingredients.map(ingredient => (
+                            <p>{ingredient}</p>
+                        ))}
+                        <p>Directions: {recipe.directions}</p>
+                        <button onClick={() => this.deleteRecipe(recipe.recipeName)}>X</button>
+                    </>
+                  ))}
+                </div>
+              ) : (
+                <h3>No Results to Display</h3>
+              )}
             </>
         )
     }

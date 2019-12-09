@@ -3,13 +3,7 @@ import API from "../utils/API";
 
 class ViewRecipe extends Component {
     state= {
-        recipes: [
-        {   
-            recipeName: "Cinnamon Rolls",
-            ingredients: ["cinnamon", "sugar", "butter", "bread"],
-            directions: "roll and bake"
-        }
-        ],
+        recipes: [],
         recipeName: "",
         ingredients: [],
         directions: ""
@@ -20,8 +14,7 @@ class ViewRecipe extends Component {
     loadRecipes = () => {
         API.findAllRecipes()
             .then(res => 
-                console.log(res)
-                // this.setState( { recipes: res.data })
+                this.setState( { recipes: res.data })
             )
             .catch(err => console.log(err));
     };

@@ -13,9 +13,10 @@ const recipeSeed = [
     }
 ];
 
+
 db.Recipe
   .remove({})
-  .then(() => db.User.collection.insertMany(recipeSeed))
+  .then(() => db.Recipe.collection.insertMany(recipeSeed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
     process.exit(0);
