@@ -5,7 +5,7 @@ module.exports = {
         console.log(req.body);
         db.Recipe
         .find(req.query)
-        .then(dbModel => res.json(dbModel))
+        .then(dbModel => {res.json(dbModel), console.log(dbModel)})
         .catch(err => res.status(422).json(err));
     },
     findById: function(req, res) {

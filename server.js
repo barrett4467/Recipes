@@ -1,27 +1,23 @@
-const express = require("express");
-
 const mongoose = require("mongoose");
+const express = require("express");
+var cors = require("cors");
+
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Defining middleware here
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(cors());
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
+const router = express.Router();
+
+let db = mongoose.connection;
+
+db.once("open", () => console.log("connected to the database!!"));
 
 app.use(routes);
 
-app.get("/add", (req, res) => {
-  console.log(req.query);
-})
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/recipes");
 
-mongoose.Promise = global.Promise;
-// Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/recipes");
 
 // Start the API server
 app.listen(PORT, function() {
